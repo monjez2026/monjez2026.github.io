@@ -7,10 +7,11 @@
 <meta name="description" content="تلقينات ومهارات الذكاء الاصطناعي من مقاطع المنجز الذكي، جاهزة للنسخ.">
 <meta property="og:title" content="مكتبة المنجز الذكي">
 <meta property="og:description" content="تلقينات ومهارات الذكاء الاصطناعي من مقاطع المنجز الذكي، جاهزة للنسخ.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
+@font-face{font-family:"ThS";src:url(fonts/thmanyahsans-Regular.woff2) format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"ThS";src:url(fonts/thmanyahsans-Medium.woff2) format("woff2");font-weight:500;font-display:swap}
+@font-face{font-family:"ThS";src:url(fonts/thmanyahsans-Bold.woff2) format("woff2");font-weight:700;font-display:swap}
+@font-face{font-family:"ThD";src:url(fonts/thmanyahserifdisplay-Bold.woff2) format("woff2");font-weight:700;font-display:swap}
 :root{
   --bg:#f7f5f0; --card:#ffffff; --ink:#1c1b19; --muted:#6b675f; --line:#e4e0d6;
   --accent:#0f7b6c; --accent-ink:#ffffff; --code:#f1eee6;
@@ -20,9 +21,9 @@
          --accent:#3cc4ae; --accent-ink:#0b1412; --code:#232622; }
 }
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:"IBM Plex Sans Arabic",system-ui,sans-serif;line-height:1.7}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"ThS",system-ui,sans-serif;line-height:1.7}
 .wrap{max-width:720px;margin:0 auto;padding:28px 16px 48px}
-header h1{margin:0;font-size:1.7rem;font-weight:700}
+header h1{margin:0;font-family:"ThD","ThS",serif;font-size:1.9rem;font-weight:700}
 header p{margin:.35rem 0 1.1rem;color:var(--muted)}
 .links{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px}
 .links a{display:inline-flex;align-items:center;padding:.5rem 1rem;border-radius:999px;border:1px solid var(--line);
