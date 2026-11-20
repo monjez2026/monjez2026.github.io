@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>مكتبة المنجز الذكي</title>
+<meta name="description" content="تلقينات ومهارات الذكاء الاصطناعي من مقاطع المنجز الذكي، جاهزة للنسخ.">
+<meta property="og:title" content="مكتبة المنجز الذكي">
+<meta property="og:description" content="تلقينات ومهارات الذكاء الاصطناعي من مقاطع المنجز الذكي، جاهزة للنسخ.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f7f5f0; --card:#ffffff; --ink:#1c1b19; --muted:#6b675f; --line:#e4e0d6;
+  --accent:#0f7b6c; --accent-ink:#ffffff; --code:#f1eee6;
+}
+@media (prefers-color-scheme: dark){
+  :root{ --bg:#121311; --card:#1b1d1a; --ink:#ecebe6; --muted:#9d9a91; --line:#2c2f2a;
+         --accent:#3cc4ae; --accent-ink:#0b1412; --code:#232622; }
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"IBM Plex Sans Arabic",system-ui,sans-serif;line-height:1.7}
+.wrap{max-width:720px;margin:0 auto;padding:28px 16px 48px}
+header h1{margin:0;font-size:1.7rem;font-weight:700}
+header p{margin:.35rem 0 1.1rem;color:var(--muted)}
+.links{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px}
+.links a{display:inline-flex;align-items:center;padding:.5rem 1rem;border-radius:999px;border:1px solid var(--line);
+  color:var(--ink);text-decoration:none;font-weight:500;background:var(--card)}
+.links a.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.links a[hidden]{display:none}
+input[type=search]{width:100%;padding:.75rem 1rem;border-radius:12px;border:1px solid var(--line);
+  background:var(--card);color:var(--ink);font:inherit;margin-bottom:18px}
+.item{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:14px;scroll-margin-top:16px}
+.item:target{border-color:var(--accent)}
+.meta{display:flex;flex-wrap:wrap;gap:6px 12px;font-size:.85rem;color:var(--muted)}
+.tag{color:var(--accent);font-weight:500}
+.item h2{font-size:1.15rem;margin:.3rem 0 .6rem}
+.prompt{position:relative;background:var(--code);border-radius:10px;padding:12px 12px 48px;white-space:pre-wrap;
+  font-size:.95rem;overflow-wrap:anywhere;unicode-bidi:plaintext}
+.copy{position:absolute;bottom:8px;left:8px;border:0;border-radius:8px;padding:.4rem .9rem;
+  background:var(--accent);color:var(--accent-ink);font:inherit;font-weight:500;cursor:pointer}
+.note{margin:.6rem 0 0;color:var(--muted);font-size:.92rem}
+.item a.video{display:inline-block;margin-top:.6rem;color:var(--accent);font-weight:500;text-decoration:none}
+.empty{text-align:center;color:var(--muted);padding:40px 12px;border:1px dashed var(--line);border-radius:14px}
+footer{margin-top:28px;color:var(--muted);font-size:.85rem;text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>مكتبة المنجز الذكي</h1>
+    <p>كل تلقينة ومهارة في مقاطعنا، جاهزة للنسخ والتطبيق.</p>
+  </header>
+  <nav class="links">
+    <a id="l-telegram" class="primary" hidden>قناة التليجرام</a>
+    <a id="l-tiktok" target="_blank" rel="noopener">حسابنا في تيك توك</a>
+    <a id="l-whatsapp" target="_blank" rel="noopener">اطلب خدمة عبر واتساب</a>
+  </nav>
+  <input type="search" id="q" placeholder="ابحث باسم الأداة أو المهمة…" aria-label="بحث">
+  <main id="list"></main>
+  <footer>المنجز الذكي</footer>
+</div>
+<script>
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let items = [];
+function render(filter){
+  const list = document.getElementById('list');
+  const f = (filter||'').trim().toLowerCase();
+  const shown = items.filter(it => !f || [it.title,it.tool,it.series,it.prompt,it.note].join(' ').toLowerCase().includes(f));
+  if (!items.length){ list.innerHTML = '<div class="empty">أول التلقينات تُضاف هنا مع أول مقطع. تابعنا حتى لا تفوتك.</div>'; return; }
+  if (!shown.length){ list.innerHTML = '<div class="empty">لا نتيجة لهذا البحث.</div>'; return; }
+  list.innerHTML = shown.map((it,i) => `
+    <article class="item" id="${esc(it.id)}">
+      <div class="meta"><span class="tag">${esc(it.series)}</span><span>${esc(it.tool)}</span><span>${esc(it.date)}</span></div>
+      <h2>${esc(it.title)}</h2>
+      <div class="prompt"><span>${esc(it.prompt)}</span><button class="copy" data-i="${items.indexOf(it)}">نسخ</button></div>
+      ${it.note ? `<p class="note">${esc(it.note)}</p>` : ''}
+      ${it.video ? `<a class="video" href="${esc(it.video)}" target="_blank" rel="noopener">شاهد المقطع</a>` : ''}
+    </article>`).join('');
+}
+document.addEventListener('click', async e => {
+  const b = e.target.closest('.copy'); if (!b) return;
+  const text = items[+b.dataset.i].prompt;
+  try { await navigator.clipboard.writeText(text); }
+  catch { const t=document.createElement('textarea'); t.value=text; document.body.appendChild(t); t.select(); document.execCommand('copy'); t.remove(); }
+  b.textContent = 'نُسخت'; setTimeout(()=> b.textContent='نسخ', 1500);
+});
+document.getElementById('q').addEventListener('input', e => render(e.target.value));
+fetch('prompts.json', {cache:'no-cache'}).then(r=>r.json()).then(d => {
+  const set = (id,url) => { const a=document.getElementById(id); if(url){a.href=url;a.hidden=false;} else a.hidden=true; };
+  set('l-telegram', d.telegram); set('l-tiktok', d.tiktok); set('l-whatsapp', d.whatsapp);
+  items = (d.items||[]).slice().sort((a,b)=> String(b.date).localeCompare(String(a.date)));
+  render('');
+  if (location.hash){ const el=document.querySelector(location.hash); if(el) el.scrollIntoView(); }
+}).catch(()=>{ items=[]; render(''); });
+</script>
+</body>
+</html>
